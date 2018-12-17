@@ -2,15 +2,11 @@ console.log("server starts...");
 require("dotenv").config();
 const express = require("express");
 const cars = require("./mok/data");
-
+const axios = require("axios");
+const cors = require("cors");
 const app = express();
-let requests = 0;
 
-app.get("/cars", (req, res, next) => {
-  console.log(++requests);
-  console.log(req.ip);
-  res.status(200).json(cars);
-});
+app.use(cors());
 
 app.get("/cars/:model", (req, res, next) => {
   const model = req.params.model;
@@ -22,6 +18,19 @@ app.get("/cars/:model", (req, res, next) => {
   } else {
     res.status(404).send("model not found!");
   }
+});
+
+app.get(/car*/, (req, res, next) => {
+  res.status(200).json(cars);
+});
+
+app.get("/country/:capital", (req, res, next) => {
+  const capital = req.params.capital;
+  axios
+    .get(`https://restcountries.eu/rest/v2/capital/${capital}`)
+    .then(result => {
+      res.json(result.data);
+    });
 });
 
 const port = process.env.PORT || 4500;

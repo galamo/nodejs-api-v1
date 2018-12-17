@@ -22,3 +22,14 @@
 // };
 
 // Getter();
+
+// app.get("/test2", (req, res, next) => {
+//     setTimeout(() => {
+//       res.json(cars);
+//     }, 10000);
+//   });
+
+// let waitingForCars = 0;
+// app.get("/test1", (req, res, next) => {
+//   res.json(++waitingForCars);
+// });
